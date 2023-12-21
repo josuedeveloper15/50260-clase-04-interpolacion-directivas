@@ -1,0 +1,90 @@
+<!-- <p
+  [ngClass]="false ? 'success' : 'error'"
+  [ngStyle]="{ fontSize: myFontSize + 'px' }"
+> -->
+
+<!--
+  [] ===> ELEMENTO/COMPONENTE PADRE HACIA ELEMENTO/COMPONENTE HIJO ONE WAY BINDING
+  () ===> ELEMENTO/COMPONENT HIJO HACIA EL ELEMENTO/COMPONENTE PADRE ONE WAY BINDING
+  [()] ==> ENLAZAMIENTO PADRE/HIJO EN DOS DIRECCIONS TWO-WAY BINDING
+-->
+<p>{{ today | date : "d/M/yyyy" }}</p>
+
+<p>{{ 1000000 | currency }}</p>
+
+<p ngClass="error">{{ nombre | uppercase }}</p>
+
+<input [(ngModel)]="nombre" type="text" />
+
+<div style="margin-bottom: 10px" appRounded>
+  <!-- SOLO EN UNA DIRECCION (ENTRADA) -->
+  <p
+    [ngClass]="{ error: hayError, success: !hayError }"
+    [ngStyle]="{ fontSize: myFontSize + 'px' }"
+  >
+    students-page works!
+  </p>
+
+  <!-- SOLO EN UNA DIRECCION (SALIDA) -->
+  <button (click)="toggleError()" type="button">Alternar</button>
+</div>
+
+<div appRounded>
+  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illum provident
+  eligendi ipsam expedita dolor voluptas ullam dolorum nulla facere! Sequi ullam
+  nemo laboriosam rerum quam sit quae error autem ad.
+</div>
+
+<ul>
+  <li *ngFor="let student of students">
+    {{ student }}
+  </li>
+</ul>
+<!-- <div *ngIf="!students.length">No hay estudiantes...</div> -->
+
+<hr />
+
+<div *ngIf="cargando; else listaEstudiantes">Cargando estudiantes...</div>
+<ng-template #listaEstudiantes>
+  <!-- SOLO ANGULAR 17 O SUPERIOR-->
+  <ul>
+    @for (student of students; track $index) {
+    <li>{{ $index }} - {{ student }}</li>
+    } @empty { No hay estudiantes... }
+  </ul>
+</ng-template>
+
+<!-- SOLO ANGULAR 17 -->
+
+@if (cargando) {
+<div>Cargando estudiantes...</div>
+} @else {
+<!-- SOLO ANGULAR 17 O SUPERIOR-->
+<ul>
+  @for (student of students; track $index) {
+  <li>{{ $index }} - {{ student }}</li>
+  } @empty { No hay estudiantes... }
+</ul>
+}
+
+<!-- NG SWITCH -->
+
+<div [ngSwitch]="status">
+  <div *ngSwitchCase="'APPROVED'">APROBADO</div>
+  <div *ngSwitchCase="'REJECTED'">RECHAZADO</div>
+  <div *ngSwitchDefault>DESCONOCIDO</div>
+</div>
+
+<!-- SOLO ANGULAR 17 -->
+@switch (status) { @case ('APPROVED') { APROBADO } @case ('REJECTED') {
+RECHAZADO } @default { DESCONOCIDO } }
+
+<div>
+  <ng-container *ngTemplateOutlet="cantidadAlumnos"></ng-container>
+  <ng-container *ngTemplateOutlet="saludo"></ng-container>
+</div>
+
+<ng-template #saludo> Hola </ng-template>
+<ng-template #cantidadAlumnos> 59 </ng-template>
+<ng-template> HOlA </ng-template>
+<ng-template> HOlA </ng-template>
